@@ -1,0 +1,16 @@
+<p>pokemon-list works!</p>
+
+<button  (click)="listPokemon()">Click me!!!</button>
+
+<table>
+    <tr>
+        <td>Name:</td>
+        <td>Image:</td>
+    </tr>
+
+    <tr *ngFor="let item of list ">
+        <td>{{ item.name }}</td>
+        <td>{{ item.id }}</td>
+        <!-- <td><img src="{{ item.sprites.front_default }}" alt="{{ item.sprites.front_default }}"></td> -->
+    </tr>
+</table>
