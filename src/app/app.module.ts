@@ -15,7 +15,9 @@ import {
   MatBadgeModule,
   MatProgressSpinnerModule,
   MatCardModule,
-  MatChipsModule
+  MatChipsModule,
+  MatExpansionModule,
+  MatListModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -43,6 +45,8 @@ import { PokemonDetailComponent } from './pokemon/detail/pokemon-detail.componen
     MatProgressSpinnerModule,
     MatCardModule,
     MatChipsModule,
+    MatExpansionModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

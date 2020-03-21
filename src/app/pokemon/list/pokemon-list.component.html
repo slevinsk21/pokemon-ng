@@ -11,9 +11,9 @@
 <div *ngIf="!error && !isLoading">
     <mat-toolbar class="search-container">
         <mat-form-field appearance="outline">
-            <input matInput name="search" placeholder="search a pokemon" [formControl]="query" (keyup.enter)="search()">
-            <button mat-icon-button matSuffix (click)="search()">
-                <mat-icon>search</mat-icon>
+            <input matInput name="search" placeholder="search a pokemon" [formControl]="query" (keyup)="search()">
+            <button mat-icon-button matSuffix (click)="handleClear()">
+                <mat-icon>clear</mat-icon>
             </button>
         </mat-form-field>
     </mat-toolbar>

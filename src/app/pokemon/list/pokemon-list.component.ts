@@ -88,12 +88,15 @@ export class PokemonListComponent implements OnInit {
           if(!this.itemExists(this.filteredData, this.list[i])) this.filteredData.push(this.list[i]);
         }
       }
-      console.log(this.filteredData);
+  }
+
+  handleClear() {
+    this.query.setValue('');
+    this.search();
   }
 
   getPokemons() {
     if (this.filteredData.length > 0) return this.filteredData;
-    
     return this.list;
   }
 }
