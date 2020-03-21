@@ -9,7 +9,7 @@
 <span *ngIf="error">Loading failed. Try again</span>
 
 <div *ngIf="!error && !isLoading" class="container">
-    <mat-card matBadge="{{ item.id }}" matBadgeOverlap="true" class="item"  *ngFor="let item of list">
+    <mat-card (click)="goToDetail(item)" matBadge="{{ item.id }}" matBadgeOverlap="true" class="item"  *ngFor="let item of list">
         <div style="width:100%; text-align:center;">
             <img src="{{ item.sprites.front_default }}" alt="{{ item.name }}" style="width: 60%;">
         </div>

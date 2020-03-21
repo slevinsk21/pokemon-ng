@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonServiceService } from '../services/pokemon-service.service';
+import { PokemonServiceService } from '../../services/pokemon-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -10,7 +11,8 @@ export class PokemonListComponent implements OnInit {
   list: Array<any> = [];
   isLoading: boolean = false;
   error: boolean = false;
-  constructor(private  requester: PokemonServiceService) {
+  constructor(private  requester: PokemonServiceService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class PokemonListComponent implements OnInit {
 
   async valitadeCache() {
     this.isLoading = true;
-    console.log(this.isLoading);
+    // console.log(this.isLoading);
     try {
       const cacheList = await JSON.parse(localStorage.getItem('list'));
       if (localStorage.length > 0 && cacheList) {
@@ -45,8 +47,14 @@ export class PokemonListComponent implements OnInit {
     }
     finally {
       this.isLoading = false;
-      console.log(this.isLoading);
+      // console.log(this.isLoading);
 
     }
+  }
+  goToDetail(pokemon: Object) {
+    this.requester.pokemonSelected = Object.assign({}, pokemon);
+    window.scrollTo(0, 0);
+    this.router.navigate(['/detail']);
+    
   }
 }
