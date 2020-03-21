@@ -29,7 +29,7 @@
                       Order {{ pokemon.order }}
                     </mat-panel-description>
                   </mat-expansion-panel-header>
-              
+
                   <mat-list>
                     <mat-list-item>
                       <p mat-line>weight: <span>{{ pokemon.weight }}</span></p>
@@ -53,7 +53,7 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>Abilities</mat-panel-title>
                   </mat-expansion-panel-header>
-              
+
                   <mat-list>
                     <mat-list-item *ngFor="let item of pokemon.abilities">
                       • {{ item.ability.name }}
@@ -61,14 +61,19 @@
                   </mat-list>
                 </mat-expansion-panel>
               </mat-accordion>
-
         </mat-card-content>
 
-        <button (click)="getEvoluctions()">GET EVOLUTIONS</button>
+        <!-- <button (click)="getEvoluctions()">GET EVOLUTIONS</button> -->
+        <mat-list *ngFor="let item of evolutions">
+          <mat-list-item>
+            <p mat-line>
+              <span [style.color]="pokemon.name === item.name && 'red'">• {{ item.name }}</span>
+            </p>
+          </mat-list-item>
+        </mat-list>
 
-        <!-- <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions> -->
+        <mat-card-actions>
+            <button mat-button (click)="goBack()">Go Back</button>
+        </mat-card-actions>
     </mat-card>
 </div>

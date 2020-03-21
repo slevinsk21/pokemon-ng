@@ -10,13 +10,15 @@ import { PokemonServiceService } from '../../services/pokemon-service.service';
 export class PokemonDetailComponent implements OnInit {
   pokemon: Object;
   image: string = null;
+  evolutions: any;
   constructor(private  requester: PokemonServiceService,
     private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.requester.pokemonSelected) {
       this.pokemon = this.requester.pokemonSelected;
       this.image = this.pokemon['sprites'].front_default;
+      this.evolutions = await this.getEvoluctions();
     }  else this.goBack();
   }
   goBack() {
@@ -27,16 +29,13 @@ export class PokemonDetailComponent implements OnInit {
     const response = await this.requester.getEvolutionInfo(this.pokemon['species'].url);
     const evolution = await this.requester.getEvolutionInfo(response['evolution_chain'].url);
 
-    const data = [{ name: evolution['chain'].species.name }];
-    if (evolution['chain'].evolves_to.length > 0) {
-      data.push({ name: evolution['chain'].evolves_to[0].species.name })
+    let data = [{ name: evolution['chain'].species.name }];
+    if (evolution['chain'].evolves_to.length === 1) {
+      data.push({ name: evolution['chain'].evolves_to[0].species.name });
 
-      if (evolution['chain'].evolves_to[0].evolves_to.length > 0) {
-        data.push({ name: evolution['chain'].evolves_to[0].evolves_to[0].species.name })
-      }
+      if (evolution['chain'].evolves_to[0].evolves_to.length === 1) data.push({ name: evolution['chain'].evolves_to[0].evolves_to[0].species.name });
     }
-
-    console.log(data);
+    return data;
   }
 
 }

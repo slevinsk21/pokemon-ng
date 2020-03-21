@@ -24,7 +24,5 @@ export class PokemonServiceService {
 
   async getEvolutionInfo(url: any) {
     return await this.http.get(url).toPromise();
-
-    
   }
 }
