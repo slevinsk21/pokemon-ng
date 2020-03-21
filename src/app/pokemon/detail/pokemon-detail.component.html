@@ -63,14 +63,17 @@
               </mat-accordion>
         </mat-card-content>
 
-        <!-- <button (click)="getEvoluctions()">GET EVOLUTIONS</button> -->
-        <mat-list *ngFor="let item of evolutions">
-          <mat-list-item>
-            <p mat-line>
-              <span [style.color]="pokemon.name === item.name && 'red'">• {{ item.name }}</span>
-            </p>
-          </mat-list-item>
-        </mat-list>
+        <mat-card-title>Evolutions</mat-card-title>
+        <mat-chip-list >
+          <mat-chip
+            *ngFor="let item of evolutions"
+            [color]="pokemon.name === item.name ? 'accent' : 'secondary'"
+            selected
+            (click)="goTo(item.name)"
+          >
+            {{ item.name }}
+          </mat-chip>
+        </mat-chip-list>
 
         <mat-card-actions>
             <button mat-button (click)="goBack()">Go Back</button>
