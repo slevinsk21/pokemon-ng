@@ -4,11 +4,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from "@angular/common/http";
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Angular Material Modules
 import {
-  // MatInputModule,
-  // MatButtonModule,
+  MatToolbarModule,
+  MatInputModule,
+  MatIconModule,
+  MatButtonModule,
   MatBadgeModule,
   MatProgressSpinnerModule,
   MatCardModule,
@@ -30,7 +33,12 @@ import { PokemonDetailComponent } from './pokemon/detail/pokemon-detail.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
     MatCardModule,

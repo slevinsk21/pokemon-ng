@@ -8,18 +8,29 @@
 
 <span *ngIf="error">Loading failed. Try again</span>
 
-<div *ngIf="!error && !isLoading" class="container">
-    <mat-card (click)="goToDetail(item)" matBadge="{{ item.id }}" matBadgeOverlap="true" class="item"  *ngFor="let item of list">
-        <div style="width:100%; text-align:center;">
-            <img src="{{ item.sprites.front_default }}" alt="{{ item.name }}" style="width: 60%;">
-        </div>
+<div *ngIf="!error && !isLoading">
+    <mat-toolbar class="search-container">
+        <mat-form-field appearance="outline">
+            <input matInput name="search" placeholder="search a pokemon" [formControl]="query" (keyup.enter)="search()">
+            <button mat-icon-button matSuffix (click)="search()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </mat-toolbar>
 
-        <mat-card-title class="pokemon-title">{{ item.name }}</mat-card-title>
+    <div class="container">
+        <mat-card (click)="goToDetail(item)" matBadge="{{ item.id }}" matBadgeOverlap="true" class="item"  *ngFor="let item of getPokemons()">
+            <div style="width:100%; text-align:center;">
+                <img src="{{ item.sprites.front_default }}" alt="{{ item.name }}" style="width: 60%;">
+            </div>
 
-        <mat-card-subtitle>
-            <mat-chip-list *ngFor="let value of item.types" horizontal>
-                <mat-chip color="primary" selected>{{ value.type.name }}</mat-chip>
-            </mat-chip-list>
-        </mat-card-subtitle>
-    </mat-card>
+            <mat-card-title class="pokemon-title">{{ item.name }}</mat-card-title>
+
+            <mat-card-subtitle>
+                <mat-chip-list *ngFor="let value of item.types" horizontal>
+                    <mat-chip color="primary" selected>{{ value.type.name }}</mat-chip>
+                </mat-chip-list>
+            </mat-card-subtitle>
+        </mat-card>
+    </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { PokemonServiceService } from '../../services/pokemon-service.service';
 import { Router } from '@angular/router';
 
@@ -9,8 +10,11 @@ import { Router } from '@angular/router';
 })
 export class PokemonListComponent implements OnInit {
   list: Array<any> = [];
+  filteredData: Array<any> = [];
+  query = new FormControl('');
   isLoading: boolean = false;
   error: boolean = false;
+
   constructor(private  requester: PokemonServiceService,
     private router: Router) {
   }
@@ -55,6 +59,41 @@ export class PokemonListComponent implements OnInit {
     this.requester.pokemonSelected = Object.assign({}, pokemon);
     window.scrollTo(0, 0);
     this.router.navigate(['/detail']);
+  }
+
+  trimString(s) {
+    var l=0, r=s.length -1;
+    while(l < s.length && s[l] == ' ') l++;
+    while(r > l && s[r] == ' ') r-=1;
+    return s.substring(l, r+1);
+  }
+
+  compareObjects(o1, o2) {
+    var k = '';
+    for(k in o1) if(o1[k] != o2[k]) return false;
+    for(k in o2) if(o1[k] != o2[k]) return false;
+    return true;
+  }
+
+  itemExists(haystack, needle) {
+    for(var i=0; i<haystack.length; i++) if(this.compareObjects(haystack[i], needle)) return true;
+    return false;
+  }
+
+  search() {
+    this.filteredData = [];
+      const toSearch = this.trimString(this.query.value.toLowerCase());
+      for(let i= 0; i < this.list.length; i++) {
+        if(this.list[i].name.indexOf(toSearch)!=-1) {
+          if(!this.itemExists(this.filteredData, this.list[i])) this.filteredData.push(this.list[i]);
+        }
+      }
+      console.log(this.filteredData);
+  }
+
+  getPokemons() {
+    if (this.filteredData.length > 0) return this.filteredData;
     
+    return this.list;
   }
 }
