@@ -10,7 +10,7 @@ import { PokemonServiceService } from '../../services/pokemon-service.service';
 export class PokemonDetailComponent implements OnInit {
   pokemon: Object;
   image: string = null;
-  evolutions: any;
+  evolutions: Array<any> = [];
   constructor(private  requester: PokemonServiceService,
     private router: Router) { }
 
@@ -18,24 +18,35 @@ export class PokemonDetailComponent implements OnInit {
     if (this.requester.pokemonSelected) {
       this.pokemon = this.requester.pokemonSelected;
       this.image = this.pokemon['sprites'].front_default;
-      this.evolutions = await this.getEvoluctions();
+      await this.getEvoluctions();
+
     }  else this.goBack();
   }
   goBack() {
     this.router.navigate(['/']);
   }
 
+  async goTo(name: string) {
+    const cacheList = await JSON.parse(localStorage.getItem('list'));
+    const pokemon = cacheList.find((key: Object) => key['name'] === name);
+    this.requester.pokemonSelected = Object.assign({}, pokemon);
+    window.scrollTo(0, 0);
+    this.evolutions = [];
+    this.ngOnInit();
+  }
+
   async getEvoluctions() {
     const response = await this.requester.getEvolutionInfo(this.pokemon['species'].url);
     const evolution = await this.requester.getEvolutionInfo(response['evolution_chain'].url);
-
-    let data = [{ name: evolution['chain'].species.name }];
-    if (evolution['chain'].evolves_to.length === 1) {
-      data.push({ name: evolution['chain'].evolves_to[0].species.name });
-
-      if (evolution['chain'].evolves_to[0].evolves_to.length === 1) data.push({ name: evolution['chain'].evolves_to[0].evolves_to[0].species.name });
-    }
-    return data;
+    this.evolutions.push({ name: evolution['chain'].species.name });
+    this.getEvolutionFor(evolution['chain'].evolves_to);
   }
 
+  getEvolutionFor(pokemon) {
+    if (pokemon.length > 0) {
+        this.evolutions.push({ name: pokemon[0].species.name });
+        return this.getEvolutionFor(pokemon[0].evolves_to);
+    } else
+      return pokemon;
+  }
 }
