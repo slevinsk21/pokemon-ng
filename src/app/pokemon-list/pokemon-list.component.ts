@@ -18,23 +18,22 @@ export class PokemonListComponent implements OnInit {
   }
   
   async listPokemon() {
-    console.log('EN LA API');
+    console.log( 'Getting Data...' );
     const params = { limit: 25 };
     
     try {
       const { results } = await this.requester.getList(params);
 
-      const data = [];
-      results.map(item => {
-        data.push(this.requester.getListDetails(item.url))
-        // const detail = await this.requester.getListDetails(item.url)
-      });
+      let data = []
+      data = results.map(item => this.requester.getListDetails(item.url));
+      data = await Promise.all(data);
+      localStorage.setItem('list', JSON.stringify(data));
+      this.list = data;
 
-      // console.log(await Promise.all(data));
-
-      localStorage.setItem('list', JSON.stringify(await Promise.all(data)))
     } catch (error) {
       console.log(error);
+    } finally {
+      console.log( 'Getting All Data --DONE--' );
     }
   }
 }
