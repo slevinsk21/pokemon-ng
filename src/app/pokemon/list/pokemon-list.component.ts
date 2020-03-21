@@ -27,7 +27,7 @@ export class PokemonListComponent implements OnInit {
     const params = { limit: 25 };
     try {
       const response = await this.requester.getList(params);
-      let data: any[] = await response['results'].map(({ url }) => this.requester.getListDetails(url));
+      let data: any[] = await response['results'].map(({ url }) => this.requester.getDetailInfo(url));
       const responseData = await Promise.all(data);
       await localStorage.setItem('list', JSON.stringify(responseData));
       this.list = responseData;
@@ -39,7 +39,6 @@ export class PokemonListComponent implements OnInit {
 
   async valitadeCache() {
     this.isLoading = true;
-    // console.log(this.isLoading);
     try {
       const cacheList = await JSON.parse(localStorage.getItem('list'));
       if (localStorage.length > 0 && cacheList) {
@@ -51,8 +50,6 @@ export class PokemonListComponent implements OnInit {
     }
     finally {
       this.isLoading = false;
-      // console.log(this.isLoading);
-
     }
   }
   goToDetail(pokemon: Object) {
@@ -61,22 +58,22 @@ export class PokemonListComponent implements OnInit {
     this.router.navigate(['/detail']);
   }
 
-  trimString(s) {
-    var l=0, r=s.length -1;
+  trimString(s: any) {
+    let l = 0, r = s.length -1;
     while(l < s.length && s[l] == ' ') l++;
-    while(r > l && s[r] == ' ') r-=1;
-    return s.substring(l, r+1);
+    while(r > l && s[r] == ' ') r -= 1;
+    return s.substring(l, r + 1);
   }
 
-  compareObjects(o1, o2) {
-    var k = '';
+  compareObjects(o1: any, o2: any) {
+    let k = '';
     for(k in o1) if(o1[k] != o2[k]) return false;
     for(k in o2) if(o1[k] != o2[k]) return false;
     return true;
   }
 
-  itemExists(haystack, needle) {
-    for(var i=0; i<haystack.length; i++) if(this.compareObjects(haystack[i], needle)) return true;
+  itemExists(haystack: any, needle: any) {
+    for(let i = 0; i < haystack.length; i++) if(this.compareObjects(haystack[i], needle)) return true;
     return false;
   }
 
