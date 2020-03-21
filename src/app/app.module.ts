@@ -5,6 +5,7 @@ import { TestComponent } from './test/test.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
 import { HttpClientModule} from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { HttpClientModule} from "@angular/common/http";
     PokemonListComponent
   ],
   imports: [
-    BrowserModule , AppRoutingModule , HttpClientModule
+    BrowserModule , AppRoutingModule , HttpClientModule, BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

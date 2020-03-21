@@ -8,13 +8,16 @@ import { PokemonServiceService } from '../services/pokemon-service.service';
 })
 export class PokemonListComponent implements OnInit {
   list: Array<any> = [];
-  detailList: Array<any> = [];
   constructor(private  requester: PokemonServiceService) {
   }
 
-  ngOnInit() {
-    const cacheList = JSON.parse(localStorage.getItem('list'))
-    this.list = localStorage.length > 0 && cacheList ? cacheList : this.listPokemon()
+  async ngOnInit() {
+    const cacheList = await JSON.parse(localStorage.getItem('list'));
+    console.log(localStorage.length > 0 && cacheList);
+
+    if (localStorage.length > 0 && cacheList) {
+      this.list = cacheList
+    } else await this.listPokemon();
   }
   
   async listPokemon() {
@@ -22,13 +25,11 @@ export class PokemonListComponent implements OnInit {
     const params = { limit: 25 };
     
     try {
-      const { results } = await this.requester.getList(params);
-
-      let data = []
-      data = results.map(item => this.requester.getListDetails(item.url));
-      data = await Promise.all(data);
-      localStorage.setItem('list', JSON.stringify(data));
-      this.list = data;
+      const response = await this.requester.getList(params);
+      let data: any[] = await response['results'].map(({ url }) => this.requester.getListDetails(url));
+      const responseData = await Promise.all(data);
+      await localStorage.setItem('list', JSON.stringify(responseData));
+      this.list = responseData;
 
     } catch (error) {
       console.log(error);
