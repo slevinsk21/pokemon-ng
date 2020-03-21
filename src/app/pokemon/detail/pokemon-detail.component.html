@@ -1,53 +1,51 @@
-<div *ngIf="pokemon" style="display: flex;justify-content: center;">
-    <mat-card class="example-card" style="max-width: 600px; margin-bottom: 20px;">
+<div *ngIf="pokemon" class="detail-container">
+    <mat-card class="example-card" class="detail-card">
         <mat-card-header>
             <div mat-card-avatar>
                 <img
                     mat-card-image
-                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                    src="{{ image }}"
                     alt="Photo of a Shiba Inu"
                 />
             </div>
-            <mat-card-title> pokemon.name </mat-card-title>
-            <mat-card-subtitle> pokemon.types </mat-card-subtitle>
+            <mat-card-title> {{ pokemon.name }} </mat-card-title>
+            <mat-card-subtitle>
+              <p><b>types:</b>
+                <span *ngFor="let item of pokemon.types">
+                  • {{ item.type.name }}
+                </span>
+              </p>
+          </mat-card-subtitle>
         </mat-card-header>
 
-        <img
-            mat-card-image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
-            alt="Photo of a Shiba Inu"
-        />
+        <img mat-card-image src="{{ image }}" alt="pokemon-img" />
 
         <mat-card-content>
             <mat-accordion>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Personal data
-                    </mat-panel-title>
-                    <!-- <mat-panel-description>
-                      Type your name and age
-                    </mat-panel-description> -->
+                    <mat-panel-title>Personal data</mat-panel-title>
+                    <mat-panel-description>
+                      Order {{ pokemon.order }}
+                    </mat-panel-description>
                   </mat-expansion-panel-header>
               
                   <mat-list>
                     <mat-list-item>
-                      <p mat-line>weight: <span>60</span></p>
+                      <p mat-line>weight: <span>{{ pokemon.weight }}</span></p>
                     </mat-list-item>
 
                     <mat-list-item>
-                        <p mat-line>height: <span>60</span></p>
+                        <p mat-line>height: <span>{{ pokemon.height }}</span></p>
                       </mat-list-item>
 
                       <mat-list-item>
-                        <p mat-line>default: <span>Yes</span></p>
+                        <p mat-line>default: <span>{{ pokemon.is_default ? 'Yes' : 'No' }}</span></p>
                       </mat-list-item>
 
                       <mat-list-item>
-                        <p mat-line>Base Experience: <span>545</span></p>
+                        <p mat-line>Base Experience: <span>{{ pokemon.base_experience }}</span></p>
                       </mat-list-item>
-  
-
                   </mat-list>
                 </mat-expansion-panel>
 

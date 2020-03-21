@@ -9,14 +9,15 @@ import { PokemonServiceService } from '../../services/pokemon-service.service';
 })
 export class PokemonDetailComponent implements OnInit {
   pokemon: Object;
-  image: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
+  image: string = null;
   constructor(private  requester: PokemonServiceService,
     private router: Router) { }
 
   ngOnInit() {
     if (this.requester.pokemonSelected) {
       this.pokemon = this.requester.pokemonSelected;
-    }  /*else this.goBack(); */
+      this.image = this.pokemon['sprites'].front_default
+    }  else this.goBack();
   }
   goBack() {
     this.router.navigate(['/']);
